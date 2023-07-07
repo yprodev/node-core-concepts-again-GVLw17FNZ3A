@@ -1,0 +1,1 @@
+create a file /home/user/projects/node-core-concepts-again-GVLw17FNZ3A/004-file-system/my-new-file.txt
