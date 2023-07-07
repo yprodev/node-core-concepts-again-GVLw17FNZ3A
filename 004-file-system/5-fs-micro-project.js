@@ -1,6 +1,7 @@
 const fs = require('fs/promises');
 
 (async () => {
+	const commandFileHadler = await fs.open('./command', 'r');
 	const watcher = fs.watch('./command.txt');
 
 	// async iterator
