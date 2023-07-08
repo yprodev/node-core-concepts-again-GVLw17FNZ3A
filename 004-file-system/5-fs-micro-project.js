@@ -4,10 +4,16 @@ const fs = require('fs/promises');
 	const commandFileHadler = await fs.open('./command.txt', 'r');
 	const watcher = fs.watch('./command.txt');
 
+	commandFileHadler.on("change", () => {
+		console.log('event handler is really an event emitter');
+	});
+
 	// async iterator
 	for await (const event of watcher) {
 		if (event.eventType === 'change') {
 			console.log('The file was changed');
+
+			commandFileHadler.emit(event.eventType);
 
 			// get the size of the file
 			// needed for buffer size allocation
