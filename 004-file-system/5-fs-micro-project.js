@@ -1,6 +1,23 @@
 const fs = require('fs/promises');
 
 (async () => {
+	const createFile = async (path) => {
+		let existingFileHandle;
+
+		try {
+			// check if the file is already being existed
+			existingFileHandle = await fs.open(path, 'r');
+			existingFileHandle.close();
+			// return if the file exists
+			return console.log(`the file ${path} already exists`);
+		} catch (error) {
+			// we don't have the file, so let's create it
+			const newFileHandle = await fs.open(path, 'w');
+			console.log('A new file was successfully created');
+			newFileHandle.close();
+		}
+	};
+
 	// commands
 	const COMMAND_CREATE_FILE = "create a file";
 
@@ -29,7 +46,8 @@ const fs = require('fs/promises');
 		// create a file
 		// create a file <path>
 		if (command.includes(COMMAND_CREATE_FILE)) {
-			const filePath = command.substring(COMMAND_CREATE_FILE + 1);
+			const filePath = command.substring(COMMAND_CREATE_FILE.length + 1);
+			await createFile(filePath);
 		}
 	});
 
