@@ -73,16 +73,24 @@ const fs = require('fs/promises');
 		}
 
 		// rename a file
-		// COMMAND: rename a file <path>
+		// COMMAND: rename a file <path> to <new-path>
 		if (command.includes(COMMAND_RENAME_FILE)) {
-			const filePath = command.substring(COMMAND_RENAME_FILE.length + 1);
-			await renameFile(filePath);
+			const SEPARATOR = ' to ';
+			const _idx = command.indexOf(SEPARATOR);
+			const oldFilePath = command.substring(COMMAND_RENAME_FILE.length + 1, _idx);
+			const newFilePath = command.substring(_idx + SEPARATOR.length);
+
+			await renameFile(oldFilePath, newFilePath);
 		}
 
 		// add to a file
-		// COMMAND: add to a file <path>
+		// COMMAND: add to a file <path> this content: <content>
 		if (command.includes(COMMAND_ADD_TO_FILE)) {
-			const filePath = command.substring(COMMAND_ADD_TO_FILE.length + 1);
+			const SEPARATOR = ' this content: ';
+			const _idx = command.indexOf(' this content: ');
+			const filePath = command.substring(COMMAND_ADD_TO_FILE + 1, _idx);
+			const content = command.substring(_idx + SEPARATOR.len);
+
 			await addToFile(filePath, content);
 		}
 	});
