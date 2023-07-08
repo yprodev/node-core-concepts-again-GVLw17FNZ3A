@@ -1,6 +1,12 @@
 const fs = require('fs/promises');
 
 (async () => {
+	// commands
+	const COMMAND_CREATE_FILE = "create a file";
+	const COMMAND_DELETE_FILE = "delete a file";
+	const COMMAND_RENAME_FILE = "rename a file";
+	const COMMAND_ADD_TO_FILE = "add to a file";
+
 	const createFile = async (path) => {
 		let existingFileHandle;
 
@@ -18,8 +24,17 @@ const fs = require('fs/promises');
 		}
 	};
 
-	// commands
-	const COMMAND_CREATE_FILE = "create a file";
+	const deleteFile = async (path) => {
+		console.log(`Deleting ${path}`);
+	};
+
+	const renameFile = async (path, newPath) => {
+		console.log(`Rename ${path} to ${newPath}`);
+	};
+
+	const addToFile = async (path, content) => {
+		console.log(`Adding to ${path} this content: ${}`);
+	};
 
 	const commandFileHadler = await fs.open('./command.txt', 'r');
 	const watcher = fs.watch('./command.txt');
@@ -44,10 +59,31 @@ const fs = require('fs/promises');
 		const command = buffer.toString('utf-8');
 
 		// create a file
-		// create a file <path>
+		// COMMAND: create a file <path>
 		if (command.includes(COMMAND_CREATE_FILE)) {
 			const filePath = command.substring(COMMAND_CREATE_FILE.length + 1);
 			await createFile(filePath);
+		}
+
+		// delete a file
+		// COMMAND: delete a file <path>
+		if (command.includes(COMMAND_DELETE_FILE)) {
+			const filePath = command.substring(COMMAND_DELETE_FILE.length + 1);
+			await deleteFile(filePath);
+		}
+
+		// rename a file
+		// COMMAND: rename a file <path>
+		if (command.includes(COMMAND_RENAME_FILE)) {
+			const filePath = command.substring(COMMAND_RENAME_FILE.length + 1);
+			await renameFile(filePath);
+		}
+
+		// add to a file
+		// COMMAND: add to a file <path>
+		if (command.includes(COMMAND_ADD_TO_FILE)) {
+			const filePath = command.substring(COMMAND_ADD_TO_FILE.length + 1);
+			await addToFile(filePath, content);
 		}
 	});
 
