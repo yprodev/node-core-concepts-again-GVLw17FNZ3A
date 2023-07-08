@@ -21,7 +21,7 @@ const fs = require('fs/promises');
 		// we always want to read the whole content from the biginning all the way to the end
 		await commandFileHadler.read(buffer, offset, length, position);
 
-		console.log('buffer size', buffer);
+		console.log('buffer size', buffer.toString('utf-8'));
 	});
 
 	// async iterator
