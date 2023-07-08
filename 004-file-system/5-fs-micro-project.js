@@ -1,6 +1,9 @@
 const fs = require('fs/promises');
 
 (async () => {
+	// commands
+	const COMMAND_CREATE_FILE = "create a file";
+
 	const commandFileHadler = await fs.open('./command.txt', 'r');
 	const watcher = fs.watch('./command.txt');
 
@@ -21,7 +24,13 @@ const fs = require('fs/promises');
 		// we always want to read the whole content from the biginning all the way to the end
 		await commandFileHadler.read(buffer, offset, length, position);
 
-		console.log('buffer size', buffer.toString('utf-8'));
+		const command = buffer.toString('utf-8');
+
+		// create a file
+		// create a file <path>
+		if (command.includes(COMMAND_CREATE_FILE)) {
+			const filePath = command.substring(COMMAND_CREATE_FILE + 1);
+		}
 	});
 
 	// async iterator
