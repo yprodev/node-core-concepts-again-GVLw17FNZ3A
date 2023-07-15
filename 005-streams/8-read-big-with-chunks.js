@@ -9,6 +9,8 @@ const fs = require('node:fs/promises');
 
   streamRead.on('data', (chunk) => {
     if (!streamWrite.write(chunk)) {
+      const numbers = chunk.toString('utf-8').split('  ');
+      console.log('chunk read: ', numbers);
       streamRead.pause();
     }
   });
