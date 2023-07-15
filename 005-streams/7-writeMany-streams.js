@@ -3,11 +3,11 @@ const fs = require('node:fs/promises');
 (async () => {
   console.time('writeMany');
 
-  const fileHandle = await fs.open('text.txt', 'w');
+  const fileHandle = await fs.open('src.txt', 'w');
   const stream = fileHandle.createWriteStream();
 
 
-  const FINISH = 1000000;
+  const FINISH = 10_000_000;
   let i = 0;
 
   const writeMany = () => {
