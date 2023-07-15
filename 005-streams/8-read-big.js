@@ -1,13 +1,14 @@
 const fs = require('node:fs/promises');
 
 (async () => {
-  const fileHandleRead = await fs.open('text.txt');
-  const stream = fileHandleRead.createReadStream({ highWaterMark: 64 * 1024 });
+  const fileHandleRead = await fs.open('src.txt', 'r');
+  const fileHandleWrite = await fs.open('dest.txt', 'w');
 
-  stream.on('data', (chunk) => {
-    console.log('-----');
-    console.log('chunk', chunk.length);
+  const streamRead = fileHandleRead.createReadStream({ highWaterMark: 64 * 1024 });
+  const streamWrite = fileHandleWrite.createWriteStream();
+
+  streamRead.on('data', (chunk) => {
+    streamWrite.write(chunk);
   });
 })();
-
 
