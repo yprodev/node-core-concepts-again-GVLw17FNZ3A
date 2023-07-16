@@ -1,6 +1,8 @@
 const fs = require('node:fs/promises');
 
 (async () => {
+  console.time('readBig');
+
   const fileHandleRead = await fs.open('src.txt', 'r');
   const fileHandleWrite = await fs.open('dest.txt', 'w');
 
@@ -42,6 +44,11 @@ const fs = require('node:fs/promises');
   streamWrite.on('drain', () => {
     console.log('drained');
     streamRead.resume();
+  });
+
+  streamRead.on('end', () => {
+    console.log('Done reading');
+    console.timeEnd('readBig');
   });
 })();
 
