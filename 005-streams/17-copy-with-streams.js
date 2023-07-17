@@ -15,7 +15,10 @@ const SOURCE = 'src.txt';
   // Automatically controls the drain event and backpressure
   readStream.pipe(writeStream);
 
-  console.timeEnd('copy');
+  readStream.on('end', () => {
+    console.timeEnd('copy');
+  })
+
 })();
 
 
