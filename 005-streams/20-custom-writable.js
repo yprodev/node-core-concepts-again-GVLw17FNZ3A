@@ -7,6 +7,12 @@ class FileWriteSteam extends Writable {
     this.fileName = fileName;
   }
 
+  // It will run after your constructor and before
+  // any other method insice your custom
+  _construct() {
+    
+  }
+
   // Use method with underscore only! _write
   _write(chunk, encoding, callback) {
     
@@ -17,6 +23,14 @@ class FileWriteSteam extends Writable {
     // you child class
     // this.emit('error');
     // this.emit('drain');
+  }
+
+  _final() {
+
+  }
+
+  _destroy() {
+
   }
 }
 
