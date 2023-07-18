@@ -64,8 +64,7 @@ class FileWriteSteam extends Writable {
   }
 }
 
-const stream = 
-(async () => {
+(() => {
   console.time('writeMany');
 
   const stream = new FileWriteSteam({
@@ -80,7 +79,7 @@ const stream =
     while (i < FINISH) {
       const buff = Buffer.from(` ${i} `, 'utf-8');
 
-      if (i === FINISH) {
+      if (i === FINISH - 1) {
         return stream.end(buff);
       }
 
