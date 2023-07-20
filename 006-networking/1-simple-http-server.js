@@ -1,6 +1,7 @@
 const http = require('http');
 
 const PORT = 4090;
+const HOSTNAME = '127.0.0.1';
 
 const server = http.createServer((req, res) => {
   const data = { message: 'Hi there!' };
@@ -13,7 +14,7 @@ const server = http.createServer((req, res) => {
 
 // If you will not specify IP address, the loopback
 // interface will be used by default
-server.listen(PORT, '127.0.0.1', () => {
+server.listen(PORT, HOSTNAME, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
