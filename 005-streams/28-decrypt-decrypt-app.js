@@ -2,12 +2,12 @@ const { Transform } = require('node:stream');
 const fs = require('node:fs/promises');
 
 
-class Encrypt extends Transform {
+class Decrypt extends Transform {
   _transform(chunk, encoding, callback) {
 
     for (let i = 0; i < chunk.length; i++) {
       if(chunk[i] !== 255) {
-        chunk[i] = chunk[i] + 1
+        chunk[i] = chunk[i] - 1
       }
     }
 
@@ -16,15 +16,15 @@ class Encrypt extends Transform {
 }
 
 (async () => {
-  const readFileHandle = await fs.open('src.txt', 'r');
-  const writeFileHandle = await fs.open('dest.txt', 'w');
+  const readFileHandle = await fs.open('dest.txt', 'r');
+  const writeFileHandle = await fs.open('decrypted.txt', 'w');
 
   const readStream = readFileHandle.createReadStream();
   const writeStream = writeFileHandle.createWriteStream();
 
-  const encrypt = new Encrypt();
+  const decrypt = new Decrypt();
 
-  readStream.pipe(encrypt).pipe(writeStream);
+  readStream.pipe(decrypt).pipe(writeStream);
 })();
 
 
