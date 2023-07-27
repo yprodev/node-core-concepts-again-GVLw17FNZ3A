@@ -131,3 +131,6 @@ dist
 
 src.txt
 dest.txt
+
+**/test.txt
+**/text.txt
