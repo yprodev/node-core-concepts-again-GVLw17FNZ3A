@@ -10,12 +10,19 @@ const server = net.createServer(() => {});
 server.on('connection', (socket) => {
   console.log('new connection');
 
+  let fileHandle;
+
   socket.on('data', async (data) => {
-    const fileHandle = await fs.open(DESTINATION, 'w');
+    fileHandle = await fs.open(DESTINATION, 'w');
     const fileStream = fileHandle.createWriteStream();
 
     // Writing to the destination
     fileStream.write(data);
+  });
+
+  socket.on('end', () => {
+    console.log('connection ended');
+    fileHandle.close();
   });
 });
 

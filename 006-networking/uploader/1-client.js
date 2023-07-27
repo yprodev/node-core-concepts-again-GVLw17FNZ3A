@@ -18,6 +18,12 @@ const socket = net.createConnection(
     fileStream.on('data', (data) => {
       socket.write(data);
     });
+
+    fileStream.on('end', () => {
+      console.log('The file was successfully uploaded');
+      fileHandle.close();
+      socket.end();
+    });
   }
 );
 
