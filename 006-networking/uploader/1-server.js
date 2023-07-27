@@ -7,15 +7,13 @@ const DESTINATION = `storage/test.txt`;
 
 const server = net.createServer(() => {});
 
-server.on('connection', (socket) => {
+server.on('connection', async (socket) => {
   console.log('new connection');
 
-  let fileHandle;
+  const fileHandle = await fs.open(DESTINATION, 'w');
+  const fileStream = fileHandle.createWriteStream();
 
-  socket.on('data', async (data) => {
-    fileHandle = await fs.open(DESTINATION, 'w');
-    const fileStream = fileHandle.createWriteStream();
-
+  socket.on('data', (data) => {
     // Writing to the destination
     fileStream.write(data);
   });
