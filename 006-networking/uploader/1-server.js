@@ -11,11 +11,18 @@ server.on('connection', async (socket) => {
   console.log('new connection');
 
   const fileHandle = await fs.open(DESTINATION, 'w');
-  const fileStream = fileHandle.createWriteStream();
+  const fileWriteStream = fileHandle.createWriteStream();
 
   socket.on('data', (data) => {
     // Writing to the destination
-    fileStream.write(data);
+    if (!fileWriteStream.write(data)) {
+      socket.pause();
+    }
+
+    fileWriteStream.on('drain', () => {
+      socket.resume();
+    });
+
   });
 
   socket.on('end', () => {

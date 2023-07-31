@@ -12,14 +12,20 @@ const socket = net.createConnection(
   }, async () => {
     const filePath = FILEPATH;
     const fileHandle = await fs.open(filePath, 'r');
-    const fileStream = fileHandle.createReadStream();
+    const fileReadStream = fileHandle.createReadStream();
 
     // Reading from source file
-    fileStream.on('data', (data) => {
-      socket.write(data);
+    fileReadStream.on('data', (data) => {
+      if (!socket.write(data)) {
+        fileReadStream.pause();
+      }
     });
 
-    fileStream.on('end', () => {
+    socket.on('drain', () => {
+      fileReadStream.resume();
+    });
+
+    fileReadStream.on('end', () => {
       console.log('The file was successfully uploaded');
       fileHandle.close();
       socket.end();
